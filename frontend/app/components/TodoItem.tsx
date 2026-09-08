@@ -1,27 +1,42 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Todo } from '@/types/todo';
 
 export type { Todo };
 
-export default function TodoItem({ todo }: { todo: Todo }) {
+type TodoItemProps = {
+  todo: Todo;
+  onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
+};
+
+export default function TodoItem({
+  todo,
+  onToggle,
+  onDelete,
+}: TodoItemProps) {
   return (
     <li
-      className={`p-4 rounded-md border flex items-center justify-between gap-3 transition-colors ${
-        todo.completed ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+      className={`flex items-center justify-between gap-3 rounded-xl border px-4 py-3 transition ${
+        todo.completed
+          ? 'border-emerald-200 bg-emerald-50/40'
+          : 'border-gray-300 bg-white'
       }`}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex min-w-0 items-center gap-3">
         <input
           type="checkbox"
           checked={todo.completed}
-          className="w-5 h-5 rounded text-blue-600"
-          readOnly
+          onChange={() => onToggle(todo.id)}
+          className="h-5 w-5 shrink-0 accent-blue-400"
         />
+
         <span
-          className={`text-lg ${
+          className={`text-sm ${
             todo.completed
-              ? 'line-through text-gray-400'
+              ? 'text-gray-300 line-through'
               : 'text-gray-800'
           }`}
         >
@@ -29,12 +44,22 @@ export default function TodoItem({ todo }: { todo: Todo }) {
         </span>
       </div>
 
-      <Link
-        href={`/task/${todo.id}`}
-        className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline shrink-0"
-      >
-        Detail
-      </Link>
+      <div className="flex shrink-0 items-center gap-2">
+        <Link
+          href={`/task/${todo.id}`}
+          className="rounded-md bg-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:bg-blue-300"
+        >
+          Detail →
+        </Link>
+
+        <button
+          type="button"
+          onClick={() => onDelete(todo.id)}
+          className="rounded-md bg-red-400 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-red-500"
+        >
+          Hapus
+        </button>
+      </div>
     </li>
   );
 }

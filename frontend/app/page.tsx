@@ -1,6 +1,5 @@
 import React from 'react';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
+import TodoStateOnlyApp from './components/TodoStateOnlyApp';
 import { getTodos } from '@/lib/todos';
 
 export default async function TodoPage() {
@@ -15,11 +14,7 @@ export default async function TodoPage() {
           </h1>
         </header>
 
-        {/* Form Komponen */}
-        <TodoForm />
-
-        {/* List Komponen yang membungkus Item */}
-        <TodoList todos={todos} />
+        <TodoStateOnlyApp initialTodos={todos} />
       </div>
     </main>
   );

@@ -61,3 +61,28 @@ export const validateTodo = (
 
   next();
 };
+export const validateUpdateTodo = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const { task, is_completed } = req.body;
+
+  if (!task || typeof task !== 'string') {
+    res.status(400).json({
+      success: false,
+      message: 'Task wajib diisi dengan format string!'
+    });
+    return;
+  }
+
+  if (typeof is_completed !== 'boolean') {
+    res.status(400).json({
+      success: false,
+      message: 'is_completed harus berupa boolean!'
+    });
+    return;
+  }
+
+  next();
+};

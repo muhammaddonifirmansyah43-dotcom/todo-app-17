@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import apiRoutes from './routes/api';
+import routes from './routes/index';
 
 const app = express();
 
@@ -14,6 +14,14 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api', apiRoutes);
+app.use('/api', routes);
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route tidak ditemukan.'
+  });
+});
 
 export default app;
